@@ -1,10 +1,11 @@
 import { Injectable, NotImplementedException } from "@nestjs/common"
 import { TransactionsRepo } from "./database/transactions.repo"
 import {
-  paginatedTransaction,
+  userAssetBalance,
+  paginatedTransactions,
   Transaction,
 } from "./database/transactions.types"
-import { queryPageNumberDto } from "./validation-dto/validation-query"
+import { queryPageDto, paramUserIdDto } from "./validation-dto/validation-query"
 
 const INTEREST_RATES_BY_ASSET = {
   BTC: 5,
@@ -20,14 +21,16 @@ export class AppService {
     return this.transactionsRepo.getAll()
   }
 
-  // !TODO
-  getPaginatedTransactions(param: queryPageNumberDto): paginatedTransaction {
- 
+  // TODO - DONE
+  getPaginatedTransactions(param: queryPageDto): paginatedTransactions {
     const page: number = +param.page // + js trick to get a number. <3 TS
-    
+
     // getAll and sort by createdOn
-    const transactions = this.transactionsRepo.getAll()
-    const sortedTransactions = transactions.sort((firstObj, secondObj) => firstObj.createdOn > secondObj.createdOn ? 1 : -1)
+    const transactions: Transaction[] = this.transactionsRepo.getAll()
+    const sortedTransactions: Transaction[] = transactions.sort(
+      (firstObj, secondObj) =>
+        firstObj.createdOn > secondObj.createdOn ? 1 : -1
+    )
     // console.log(sortedTransactions)
 
     // set pagination options
@@ -36,17 +39,18 @@ export class AppService {
     const endIndex: number = page * itemsPerPage
     // console.log(`start ${startIndex}, end ${endIndex}`)
 
-    // put data in paginatedResults
-    const paginatedResults: any = {}
-    paginatedResults.currentPage = page
-    if (endIndex < sortedTransactions.length) {
-      paginatedResults.nextPage = page + 1
+    // setting data in paginatedResults and page index logic 
+    const paginatedResults: paginatedTransactions = {
+      paginatedTransactions: sortedTransactions.slice(startIndex, endIndex),
+      itemsPerPage: itemsPerPage,
+      currentPage: page,
     }
     if (startIndex > 0) {
       paginatedResults.previousPage = page - 1
     }
-    paginatedResults.itemsPerPage = itemsPerPage
-    paginatedResults.paginatedTransactions = sortedTransactions.slice(startIndex, endIndex)
+    if (endIndex < sortedTransactions.length) {
+      paginatedResults.nextPage = page + 1
+    }
     // console.log(paginatedResults)
     return paginatedResults
   }
@@ -57,9 +61,65 @@ export class AppService {
    *
    * @returns
    */
-  getBalanceByUser(): any {
-    // TODO: applicant should implement this method
-    throw new NotImplementedException()
+  getBalanceByUser(userId: paramUserIdDto): userAssetBalance[] {
+    // TODO - DONE
+    // throw new NotImplementedException()
+    const allTransactions: Transaction[] = this.transactionsRepo.getAll()
+
+    // filter transactions by user.id
+    const userTransactions: object[] = []
+    for (const transaction of allTransactions) {
+      if (transaction.user.id === userId.userId) {
+        userTransactions.push(transaction)
+      }
+    }
+    // console.log(userIdTransactions)
+
+    // this or _.groupBy() to group by key
+    // Accepts the array and key
+    const groupBy = (array, key) => {
+      // Return the end result
+      return array.reduce(
+        function (result, currentValue) {
+          // If an array already present for key, push it to the array.
+          // Else create an array and push the object
+          ;(result[currentValue[key]] = result[currentValue[key]] || []).push(
+            currentValue
+          )
+          // Return the current iteration `result` value, this will be taken as next iteration `result` value and accumulate
+          return result
+        },
+        // empty object is the initial value for result object
+        {}
+      )
+    }
+
+    // Group userTransactions by asset, {ETH:[], DOT:[]...}
+    const userTransactionsAsset: object = groupBy(userTransactions, "asset")
+    // console.log(userTransactionsAsset)
+
+    const userBalance: userAssetBalance[] = []
+    for (const assetType in userTransactionsAsset) {
+      // single asset transaction
+      const assetTransactions: Transaction[] = userTransactionsAsset[assetType]
+      // console.log(assetTransactions);
+      // console.log(assetTransactions.map((transaction) => transaction.amount))
+
+      // map transaction amount and sum it
+      const assetBalance: number = assetTransactions
+        .map((transaction) => transaction.amount)
+        .reduce((previousValue, currentValue) => previousValue + currentValue)
+      // console.log(assetBalance);
+
+      // create user asset balance object
+      const userAssetBalance: userAssetBalance = {
+        user: { id: userId.userId },
+        asset: assetType,
+        balance: assetBalance,
+      }
+      userBalance.push(userAssetBalance)
+    }
+    return userBalance
   }
 
   /**

@@ -19,10 +19,18 @@ export interface Transaction {
   }
 }
 
-export interface paginatedTransaction {
-  currentPage: number
-  nextPage?: number
-  previousPage?: number
-  itemsPerPage: number
+export interface paginatedTransactions {
   paginatedTransactions: Transaction[]
+  itemsPerPage: number
+  currentPage: number
+  previousPage?: number
+  nextPage?: number
+}
+
+export interface userAssetBalance {
+  user: {
+    id: string
+  }
+  balance: number
+  asset: string
 }
