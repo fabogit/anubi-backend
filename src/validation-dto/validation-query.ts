@@ -4,7 +4,7 @@ import { IsNumberString, IsAlphanumeric ,IsInt, Min, Max, IsString} from "class-
 export class queryPageDto {
   @IsNumberString()
   // @IsInt()
-  // @Min(0)
+  // @Min(1)
   // @Max(50)
   page: number;
 }

@@ -1,0 +1,184 @@
+{
+	"info": {
+		"_postman_id": "027cdbc8-6e87-478d-8248-c371b70ea8dd",
+		"name": "anubi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/v1/all-transactions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3081/all-transactions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3081",
+					"path": [
+						"all-transactions"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/transactions/:page",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3081/v1/transactions/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3081",
+					"path": [
+						"v1",
+						"transactions",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/transactions/:page",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3081/v1/transactions/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3081",
+					"path": [
+						"v1",
+						"transactions",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/balances/:userId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3081/v1/balances/u1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3081",
+					"path": [
+						"v1",
+						"balances",
+						"u1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/balances/:userId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3081/v1/balances/u2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3081",
+					"path": [
+						"v1",
+						"balances",
+						"u2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
