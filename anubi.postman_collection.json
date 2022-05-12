@@ -24,14 +24,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3081/all-transactions",
+					"raw": "http://localhost:3081/v1/transactions",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "3081",
 					"path": [
-						"all-transactions"
+						"v1",
+						"transactions"
 					],
 					"query": [
 						{
@@ -175,6 +176,39 @@
 						"v1",
 						"balances",
 						"u2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/balances",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3081/v1/balances",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3081",
+					"path": [
+						"v1",
+						"balances"
 					]
 				}
 			},
