@@ -31,13 +31,11 @@ export class AppService {
       (firstObj, secondObj) =>
         firstObj.createdOn > secondObj.createdOn ? 1 : -1
     )
-    // console.log(sortedTransactions)
 
     // set pagination options
     const itemsPerPage = 5
     const startIndex: number = (page - 1) * itemsPerPage
     const endIndex: number = page * itemsPerPage
-    // console.log(`start ${startIndex}, end ${endIndex}`)
 
     // setting data in paginatedResults and page index logic 
     const paginatedResults: paginatedTransactions = {
@@ -51,7 +49,6 @@ export class AppService {
     if (endIndex < sortedTransactions.length) {
       paginatedResults.nextPage = page + 1
     }
-    // console.log(paginatedResults)
     return paginatedResults
   }
 
@@ -67,13 +64,12 @@ export class AppService {
     const allTransactions: Transaction[] = this.transactionsRepo.getAll()
 
     // filter transactions by user.id
-    const userTransactions: object[] = []
+    const userTransactions: Transaction[] = []
     for (const transaction of allTransactions) {
       if (transaction.user.id === userId.userId) {
         userTransactions.push(transaction)
       }
-    }
-    // console.log(userIdTransactions)
+    }    
 
     // this or _.groupBy() to group by key
     // Accepts the array and key
@@ -96,20 +92,16 @@ export class AppService {
 
     // Group userTransactions by asset, {ETH:[], DOT:[]...}
     const userTransactionsAsset: object = groupBy(userTransactions, "asset")
-    // console.log(userTransactionsAsset)
 
     const userBalance: userAssetBalance[] = []
     for (const assetType in userTransactionsAsset) {
       // single asset transaction
       const assetTransactions: Transaction[] = userTransactionsAsset[assetType]
-      // console.log(assetTransactions);
-      // console.log(assetTransactions.map((transaction) => transaction.amount))
 
       // map transaction amount and sum it
       const assetBalance: number = assetTransactions
         .map((transaction) => transaction.amount)
         .reduce((previousValue, currentValue) => previousValue + currentValue)
-      // console.log(assetBalance);
 
       // create user asset balance object
       const userAssetBalance: userAssetBalance = {
