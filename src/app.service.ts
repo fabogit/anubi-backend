@@ -49,7 +49,7 @@ export class AppService {
 
   // TODO - DONE
   getPaginatedTransactions(param: queryPageDto): paginatedTransactions {
-    const page: number = +param.page; // + js trick to get a number. <3 TS
+    const page: number = param.page;
 
     // getAll and sort by createdOn
     const transactions: Transaction[] = this.transactionsRepo.getAll();

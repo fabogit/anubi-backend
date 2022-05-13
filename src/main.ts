@@ -13,7 +13,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup("api", app, document)
   
-  // FIXME validate incoming requests, yet it wont works -.-
   app.useGlobalPipes(new ValidationPipe({
     transform: true,
   }))
