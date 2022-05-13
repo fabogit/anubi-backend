@@ -15,11 +15,15 @@ Backend
 
 - Paginate the `GET:transactions` endpoint to return 5 elements per page (hint: use the date as index)
 
-`Test GET /transactions/:page` => `http://localhost:3081/v1/transactions/1`
+=> `Test GET /transactions/:page` => `http://localhost:3081/v1/transactions/1`
+
+=> `Test GET /transactions` => `http://localhost:3081/v1/transactions`
 
 - Implement the `GET:balances` endpoint so to have the current balance for each user and asset
 
-`Test GET /balances/:userId` => `http://localhost:3081/v1/balances/u1`
+=> `Test GET /balances/:userId` => `http://localhost:3081/v1/balances/u1`
+
+=> `Test GET /balances/` => `http://localhost:3081/v1/balances`
 
 - Implement the `processUserInterests` method inside the class `AppService`
 
