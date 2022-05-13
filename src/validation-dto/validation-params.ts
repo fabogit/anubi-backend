@@ -5,7 +5,7 @@ export class queryPageDto {
   @IsNumberString()
   // @IsInt()
   // @Min(1)
-  // @Max(50)
+  // @Max(2)
   page: number;
 }
 

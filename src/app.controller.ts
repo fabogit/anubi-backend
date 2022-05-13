@@ -5,15 +5,19 @@ import {
   paginatedTransactions,
   Transaction,
   userAssetBalance,
+  userBalances,
 } from "./database/transactions.types"
-import { paramUserIdDto, queryPageDto } from "./validation-dto/validation-query"
+import {
+  paramUserIdDto,
+  queryPageDto,
+} from "./validation-dto/validation-params"
 
 @Controller("v1")
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
   // old transaction endpoint
-  @Get("all-transactions")
+  @Get("transactions")
   getTransactions(): Transaction[] {
     return this.appService.getTransactions()
   }
@@ -30,5 +34,12 @@ export class AppController {
   getBalanceByUser(@Param() userId: paramUserIdDto): userAssetBalance[] {
     const userBalance = this.appService.getBalanceByUser(userId)
     return userBalance
+  }
+
+  // TODO
+  @Get("balances")
+  getBalances(): userBalances[] {
+    const balances = this.appService.getBalances()
+    return balances
   }
 }
